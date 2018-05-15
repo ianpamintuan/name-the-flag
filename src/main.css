@@ -1,0 +1,32 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+
+s|Button.arrow {
+	skinClass: ClassReference("skins.ButtonSkin");
+}
+s|Label.gameTitle
+{
+	color: #FCF9F9;
+	fontFamily: "_sans";
+	fontSize: 40;
+	textAlign: center;
+}
+
+s|ActionBar
+{
+	chromeColor: #16a085;
+}
+global
+{
+	vertical-align: justify;
+	text-align: center;
+	font-weight: normal;
+	text-decoration: none;
+	font-style: normal;
+	font-size: 15;
+}
+
+@media (max-width: 320px){
+
+	
+}

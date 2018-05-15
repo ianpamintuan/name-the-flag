@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="Results" backgroundColor="#1abc9c" creationComplete="init(event), printMessage()" backKeyPressed="BackKeyHandler(event)">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<fx:Component className="EnterNameMsg">
+			<s:SkinnablePopUpContainer creationComplete="init()" fontFamily="_sans">
+				
+				<fx:Script>
+					<![CDATA[
+						import mx.events.FlexEvent;
+						
+						protected function closeGame(event:MouseEvent):void{
+							
+							NativeApplication.nativeApplication.exit();
+							
+						}
+						
+						import mx.core.FlexGlobals;
+						[Bindable] private var application:Object = FlexGlobals.topLevelApplication
+						
+						public function init():void{
+							
+							this.x = ( application.width / 2 ) - ( this.width / 2 );
+							this.y = ( application.height / 2 ) - ( this.height / 2 );
+							
+							
+						}				
+						
+					]]>
+				</fx:Script>
+				
+				<s:TitleWindow title="Enter your name" close="close()" fontFamily="_sans" backgroundColor="#1abc9c" color="white" chromeColor="#16a085">
+					
+					<s:VGroup verticalAlign="top" paddingTop="8" paddingLeft="8" paddingRight="8" gap="5" width="100%" horizontalAlign="center">
+						<s:TextInput id="txtName" maxChars="15" width="200" textAlign="center" color="black"/>
+						<s:HGroup>
+							<s:Button chromeColor="red" label="Save" click="validation(event)"/>
+						</s:HGroup>
+						
+					</s:VGroup>
+					
+					<s:layout>
+						<s:VerticalLayout paddingTop="5" paddingBottom="5" paddingLeft="5" paddingRight="5" gap="10"
+										  horizontalAlign="center" verticalAlign="top"/>
+					</s:layout>
+					
+					<fx:Script>
+						<![CDATA[
+							import mx.core.FlexGlobals;
+							import xyz.Global;
+							
+							[Bindable] public var localVar:String = "";
+							
+							public function setValue(val:String):void{
+								
+								this.localVar=val;
+								
+							}
+							
+							public function validation(event:MouseEvent):void{
+							
+								if(txtName.text.length == 0){
+								
+									txtName.setFocus();
+									
+								}else{
+								
+									Global.name = String(txtName.text);
+									this.close();
+									
+								}
+							
+							}
+							
+						]]>
+					</fx:Script>
+					
+				</s:TitleWindow>
+				
+			</s:SkinnablePopUpContainer>
+			
+		</fx:Component>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;	
+			import xyz.Global;
+			import mx.collections.ArrayCollection;
+			import mx.managers.PopUpManager;
+					
+			private var trivias:Array = new Array("The New Year in Afghanistan, called Nawroz, is celebrated on 21 March which is the first day of spring.","In Albania Nodding your head means no and shaking your head means yes.","Three quarters of Algerians speak Arabic as a first language. The other quarter is made up of local dialects called Berber, there are also large influences in Turkish and French.","Language of Andorra is Catalan. Although you are probably as likely to hear French. Castilian or even Portuguese being spoken.","The official motto of Angola is Virtus Unita Fortior - a Latin phrase that means Virtue is stronger when united.","Antigua is the only known habitat of the Antiguan Racer, the rarest snake in the world with a population of about 200.","Argentina comes from the Latin word Argentum and could be translated as Land of Silver.","Armenia lies in the highlands surrounding the Biblical mountains of Ararat, upon which Noahs Ark came to rest after the Great Flood.","In Australia you would find the Big Banana.","1945 the national flag of Austria has no coat of arms","Azerbaijan shares a common language and culture with Turkey.","Lignum Vitae or the tree of life is the national tree of The Bahamas.","Bahrain is an archipelago of 33 islands, the largest being Bahrain Island in the Persian Gulf, between Saudi Arabia and Iran.","The red circle in the center of the flag of Bangladesh signifies the rising sun of a new nation. The green background indicates the everlasting green lands of Bangladesh.","That the world’s oldest rum is produced in Barbados under the Mount Gay label","Most of the monuments in Belarus dedicated to Lenin. In every city there is a Lenin Street.","There are over 800 kinds of beers made in Belgium.","One of Belize’s premier attractions, the Blue Hole a sinkhole that is the largest in the world","The flag of Benin has two equal horizontal bands of yellow on top and red with a vertical green band on the hoist side.","Punakha was actually the original capital, but Thimphu later became the official capital and the largest city in Bhutan.","La Paz is the administrative capital. It is 12,000 about sea level which makes it the highest capital city in the world. The judicial capital is Sucre.","The capital of Bosnia and Herzegovina is Sarajevo","Botswana is a similar size to Madagascar and is just slightly smaller than Texas and only slightly larger than France.","Brazil produces the most oranges in the world.","Predominantly, Bruneis economy is based on oil, natural gas, and coal.","Bulgaria is the oldest nation-state in Europe.","Burkina is ranked one of the poorest countries in the world and also as the most illiterate.","In Burundi Coffee contributes more income to the country's economy - like neighboring Rwanda - than any other single economic activity.","The Cambodian flag is the only national flag that has an image of a building – the Angkor Wat.","The country of Cameroon is called Africa in miniature for its geological and cultural diversity. Natural features include beaches, deserts, mountains, rainforests, and savannas.","Canada is a name derived from the Huron-Iroquois kanata meaning, a village or settlement.","official language of Cape Verde is Portuguese","It became self-governing within French Equatorial Africa, under the name Central African Republic, in 1958 and achieved full independence in 1960.","Chad gained independence from France on 11 August, 1960","The flag of chile  is similar to the flag of texas the two flags are white, blue, red and have a white star.","White, rather than black, is the Chinese color for mourning and funerals.","Peso is the currency of Colombia.","Moroni, the capital of Comoros, is located on the island of Grande Comore, and has served as the country capital since 1962","Congo is the world leader in cobalt mining.","Straddling the Equator, the Democratic Republic of the Congo is the third largest country in Africa.","Costa Ricans call themselves Ticos and Ticas."," Unity, discipline, labour  is the national motto of Ivory Coast.","The White House was built using stones from Croatia’s island Brac.","The current capital of Cuba is Havana, while earlier the capital used to be Santiago de Cuba. UNESCO has declared Havana City, Cienfuegos, and Trinidad World Heritage Sites.","The origin of the name Cyprus is unknown, but it may derive from the Mediterranean cypress tree, the henna plant or the metal copper.","The sugar cube was invented in the Czech town Dacice in 1843.","The flag of Denmark, Dannebrog, is the oldest state flag in the world still in use by an independent nation. It was adopted in 1219.","Djibouti is the 3rd smallest country on the African continent, after The Gambia and Swaziland. As of 2005, Djibouti had the least number of people on the African continent.","3 November 1978 Dominica become independent.","Can you speak only using your nose? Dominicans are famous for their nose talk. A little twitch here and a little wrinkle there. The nose knows","The official languages of East Timor are Tetum and Portuguese. English and Indonesian are working languages.","The time zone is the same as East Coast US standard time. However, we do not use Daylight Savings Time in Ecuador","The ancient Egyptians believe that fried mice would cure a toothache","In 1821 El Salvador declared independence from Spain jointly with Costa Rica, Guatemala, El Honduras and Nicaragua","Equatorial Guinea is the smallest nation in Africa that is a member of the United Nations.","Skype was developed by a team of Estonians in Estonia, under Swedish-Danish leadership. The main development office of Skype is still in Tallinn.","Ethiopia is the only country in the world with 13 months","The official name of the Fijian islands is The Republic of Fiji.","Finland was one of the last region of Europe to be Christianised, in the 12th century.","France is the largest European country in terms of land area after Russia and Ukraine.","Gabons name originates from Gabão, Portuguese for cloak, which is roughly the shape of the estuary of the Komo River by its capital Libreville.","L. Thomas designed Gambias flag.","Georgia is the nations number one producer of the three Ps-peanuts, pecans, and peaches.","Germany is the most populous European country (apart from Russia), with a population of 82 million.","Ghana contributes the highest number of female peace keepers to the United Nations.","Greek people have one of the lowest death rate for cancer in Europe.","7 February 1974 Grenada become independent.","Lake Peten Itza is the largest lake in Guatemala.","12 October 1968 Equatorial Guinea become independent.","Located on Africas west coast, Guinea-Bissau is sandwiched between Senegal to the north and Guinea to the east and south. To its west is the Atlantic Ocean.","Dollar is the currency of Guyana.","Native Haitians were pre-Columbian Amerindians called Taíno, the good people. The Taíno named their land Ayiti, meaning Land of Mountains —a term that evolved into Haiti","The term Banana Republic was first applied to Honduras by the American writer O. Henry, for the influence the U.S. banana companies had at some time.","According to EU statistics, Hungary the highest death rate by cancer in Europe, and the highest female suicide rate.","Iceland has about 130 volcanic mountains. Among them 18 have erupted since the settlement of Iceland 1100 years ago.","India is the largest democracy in the world.","Indonesia is the fourth-most populous country (238 million as of 2010), only after the Peoples Republic of China, India, and the United States.","Iran is one of the worlds oldest continuous civilizations, with settlements dating back to 4000 B.C.","Iraqs nickname is the cradle of civilization.","The three most famous symbols of Ireland are the green Shamrock, the harp, and the Celtic cross.","Israel is the 100th smallest country, with less than 1/1000th of the world’s population.","Italy is the fifth most visited country in the world, welcoming some 46 million foreign visitors annually.","Most traditional dishes often have bones in them – it is not a crime to pick them out of your mouth and place them to the side of your plate.","Japan is composed of over 3000 islands, 600 of which are inhabited.","Jordan is bordered by Saudi Arabia on the east and south-east, Iraq on the north-east, Syria on the north and the West Bank and Israel on the west.","The worlds first and largest space launch site is situated in Baikonur, Kazakhstan.","Nairobi is the capital and largest city of Kenya. Its city center has many modern buildings.","Kiribati relies on fishing and tourism for its economy these days. Majority of goods need to be imported to Kiribati.","The average life expectancy of North Koreans is 61 years for males and 66 years for females.","Though smaller in size, South Korea has a population more than double that of North Korea.","Kosovo literally translated means field of blackbirds.","Kuwait achieved complete independence from Britain in 1961.","Osh city of Kyrgyzstan, sited in the Fergana Valley, is said to be three thousand years old.","Laos is the only country in Southeast Asia which is landlocked, And because of being landlocked, Laos does not have a navy.","Fridrich Cander (1887-1933) was a Latvian inventor who worked on the theory and design of jet engines and rockets.","Lebanons name has been around for 4.000 yrs non- stop (its the oldest country name in the world!)","Sesotho is an official language of Lesotho.","The Liberian flag was modeled after the U.S. flag and the eleven red and white stripes of the Liberian flag stand for the eleven signers of the Liberian Declaration of Independence","There is no electricity bill in Libya; electricity is free for all its citizens.","Liechtenstein is the only German-speaking country not to border Germany. It is also the smallest of all the German speaking countries.","A part of the Baltic family of languages, Lithuanian language is considered to be the most conservative of the Indo-European languages, maintaining many of its old forms and changing slowly.","Luxembourg is the world's sixth-smallest country and the only Grand Duchy.","1993 Macedonia join UN.","The capital is Antananarivo but everybody calls it Tana.","Malawi is Formerly known Nyasaland.","MALAYSIA shares with Qatar the worlds lowest death rate of respiratory diseases, at 7.5 death per annum per 100 000 people.","The official name of Maldives is the Republic of Maldives. However, the official local long form name for the Maldives is Dhivehi Raajjeyge Jumhooriyyaa.","The highest point in the Marshall Islands is the Majuro Bridge (15ft high).","Mauritanian etiquette demands that before you take a picture or have your picture taken with them, that you become friends.","12 March 1968 Mauritius become independent.","The official name of Mexico is Estados Únidos Mexicanos (United Mexican States).","Micronesia lies north of the equator, in between Hawaii and the Philippines","Moldova is a landlocked nation of rolling steppe with a gradual south slope towards the Black Sea.","Citizens of Monaco are not allowed to gamble, nor even visit the casinos.","Mongolia has the oldest National Park in the world. Lying just South of Ulan Bator the Bogd Khan National Park dates its origin to 1778. ","The small nation of Montenegro, located in Southeastern Europe, is one of the lesser-visited destinations in the region. ","Morocco is about the same size as the state of California."," Mozambique become independent on 1975.","In 1989 the largest nation of mainland Southeast Asia changed its name from Burma to Myanmar.","The Namib is about eighty million years old, and has the worlds highest sand dunes.","Nauru was dubbed Pleasant Island in 1798 by British whale hunter John Fearn.","In Nepal there are 8 of the worlds 14 highest mountains above 8000 meters, including Mt. Everest.","The Netherlands mean Low Country in Dutch. About half of its surface area is less than 1 metre above sea level. Its highest point is 321 metres (1,053 ft) above sea level.","New Zealand was the first major nation to have universal suffrage. In 1893 it became legal for all male and female citizens of New Zealand to vote.","Spanish is the official language of Nicaragua.","Niger is, in fact, the largest country in West Africa, but over 80% of its land is covered by the Sahara desert. ","Nigeria is the third fastest growing economy in the world.","Norway is the European country (Russia excluded) with the longest coastline - 53,199 km according to the World Resources Institute.","Muscat is on the coast of the Arabian Sea, and is a vibrant city with a distinctive feel to it.","Pakistan is home to more than 180 million people, making it the sixth most populous country in the world.","Palau is a beautiful nation of islands southwest of the Philippines in the North Pacific Ocean.","Palestine before World War I was a part of one of the longest lasting empires in history.","3 November 1903 Panama declare independence from Colombia.","The island of New Guinea, which is the second largest island in the world, is divided between Indonesia in the west and Papua New Guinea in the east.","Paraguay has about six million people with an average age of 20 years-old for males and 21 years-old for females. Women will have an average of four children.","The potato is originally from Peru and we produce over 3000 varieties.","Cesar Virata is the first and last Prime Minister of the Philippines after WW II.","Poland is the 6th most populous and the 6th largest of the European Unions 27 member states. Most of the country is flat, with an average elevation of 173 meters.","Over half of the worlds cork is produced in Portugal.","Doha has a population of just over 400,000 inhabitants making it the biggest city in Qatar.","Leu is the currency of Romania.","Russia is the only country in the world washed by 12 seas.","1 July 1962 Rwanda become independent."," Independent of Britain since 1983, the nation is diversifying the economy away from sugar towards tourism, banking, and light manufacturing.","There are six so-called rivers in St Lucia, but due to the size of the island they are not classified as rivers.","27 October 1979 Saint Vincent and the Grenadines become independent.","Samoa was admitted to the United Nations on 15 December 1976.","Portuguese is the official language of Sao Tome and Principe.","Saudi Arabia is one of the worlds driest countries, with rain only in the extreme north and south.","Leopold Senghor was Senegal’s first president.","Serbian is the official language of Serbia.","Mahe is the largest island in Seychelles. Praslin, Silhouette and La Digue are the second, third and fourth largest islands.","27 April 1961 Sierra Leone become independent.","Singapore consists only of one main island and 63 other tiny islands. Most of these islands are uninhabited.","Slovakia, along with the three Baltic countries, has the highest death rate for heart diseases in the EU.","Majority of the people in Slovenia are Roman Catholics, followed by Muslims, Orthodox and other Christians.","Alvaro de Mendana de Neira was the first European to reach Solomon Islands.","Somalia has one of the lowest HIV infection rates in Africa, but close to 35% of all children born in Somalia die before they are five years old due to disease and dehydration.","In South Africa Table Mountain in Cape Town is believed to be one of the oldest mountains in the world.","South Sudan is located north of Kenya and Uganda and to the west of Ethiopia.","Not all Spaniards are native speakers of (Castilian) Spanish. There are in fact four official languages in Spain (Castilian, Catalan, Basque and Galician)","Sri Lanka was known as Ceylon before 1972.","Sudan is a country in North Africa and the Middle East. It is bordered by Egypt to the north, theRed Sea to the northeast, Eritrea and Ethiopia to the east, South Sudan to the south.","That it is South America's smallest sovereign state and that its cultural heritage is predominantly Asian are two of Suriname's trivia facts.","Swaziland, truly a micro nation if compared with all the other African giants...","Sweden has the most number of McDonalds per person out of every country in Europe.","The official name of Switzerland is Confoederatio Helvetica in Latin.","Arabic is the official language of Syria.","Taiwan is nicknamed Ilha Formosa, meaning beautiful island.","The Republic of Tajikistan is nominally a republic with an elected government. ","The name of the country of Tanzania was derived from the two states Tanganyika and Zanzibar","Thailands name in the Thai language is Prathet Thai, which means Land of the Free.","East Timor gets its name from the Malay word for east, timur.","Sylvanus Olympio was Togos first president.","Tongatapu is the largest island of Tonga.","Aripo is the highest mountain in Trinidad and Tobago.","25 July 1957 Tunisia become a republic.","Turkey (especially the northern part where we will be) is quite prone to earthquakes.","Turkmenistan is a rarely-visited and largely misunderstood part of the world.","Tuvalu first competed at the Olympic Games in 2008.","Swahili is the official language of Uganda.","The name Ukraine is believed to originally mean borderland or region. In English The Ukraine used to be the form used now it is just called Ukraine.","Emirates airline operates the largest fleet of the worlds largest airplane, the Airbus A380.","According to British law, its still perfectly legal to kill any Scotsman who enters the city of York if he happens to be carrying a bow and arrow.","The United States is a constitution based federal republic.","The capital of Uruguay is Montevideo. It is the largest city and the chief port of the country. The official name is The Oriental Republic of Uruguay.","Uzbek is the official language of Uzbekistan.","Vanuatu is an archipelago, consisting of approximately 82 islands, which are of volcanic origin.","The name Vatican was already in use in the time of the Roman Republic for a marshy area on the west bank of the Tiber across from the city of Rome.","Venezuela was the largest oil exporter in the world in the early twentieth century.","Vietnamese don’t take a shower in the morning. They take a shower bath in the evening.","Yemen is situated in the south of the Arabian Peninsular, opposite the Horn of Africa.","24 October 1964 Zambia become independent.","Nyangani is the highest mountain of Zimbabwe.");
+
+			protected function printMessage():void{
+				
+				var msg:EnterNameMsg = new EnterNameMsg();
+				msg.setValue("");
+				msg.open(this, true);
+				
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				
+				lblScore.text = String(Global.score);
+				
+				loadTrivia();
+			}
+			
+			protected function randomRange(minNum:Number, maxNum:Number):Number 
+			{
+				return (Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum);
+			}
+			
+			protected function loadTrivia():void
+			{
+				
+				var random:int;
+				random = randomRange(0, trivias.length-1);
+				
+				lblTrivia.text = String(trivias[random]);
+				
+			}
+			
+			protected function BackKeyHandler(event:FlexEvent):void
+			{
+				event.stopImmediatePropagation();
+				event.preventDefault();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Script source="scripts/dbdatabase.as"/>
+
+	<s:Label top="21" width="300" height="40" color="#FBF2F2" fontSize="20" fontWeight="bold"
+			 horizontalCenter="1" text="Congratulations! Your total score is "/>
+	<s:Label id="lblScore" x="95" top="46" width="82" height="34" color="#F7220C" fontSize="25"/>
+	<s:Image left="3" width="50%" height="20%" source="assets/Trivia.png" verticalCenter="-93"/>
+	<s:Label left="10" width="90%" height="29" color="#F81414" fontSize="20" fontWeight="bold"
+			 text="Did you know that.. " verticalCenter="-22"/>
+	<s:Label id="lblTrivia" bottom="51" width="90%" height="180" color="#F5EFEF" fontSize="16"
+			 fontStyle="italic" fontWeight="normal" horizontalCenter="0"/>
+	<s:Button id="btnFinish" right="11" bottom="10" width="40%" height="5%" label="Finish" click="navigator.pushView(HomeView), insertScore(Global.name, Global.score)"/>
+	
+</s:View>

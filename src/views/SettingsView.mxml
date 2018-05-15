@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="Settings" backgroundColor="#1abc9c" creationComplete="loadToggleStates(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			
+			import xyz.Global;
+			
+			protected function printMessage(event:MouseEvent):void{
+				
+				var msg:ResetMsg = new ResetMsg();
+				msg.setValue("");
+				msg.open(this, true);			
+				
+			}
+			
+				
+			protected function SoundSwitch(event:Event):void
+			{
+				
+				if(event.target.selected == false){
+				
+					SoundMixer.soundTransform = new SoundTransform(0);
+					Global.SoundToggleState = false;
+					SoundToggle.selected = Global.SoundToggleState
+					
+					
+				}else{
+				
+					SoundMixer.soundTransform = new SoundTransform(1);
+					Global.SoundToggleState = true;
+					SoundToggle.selected = Global.SoundToggleState
+					
+				}
+			}
+			
+			protected function loadToggleStates(event:FlexEvent):void
+			{
+				SoundToggle.selected = Global.SoundToggleState;
+				FullScreenToggle.selected = Global.FullScreenToggleState;
+					
+			}
+			
+			protected function FullScreenSwitch(event:Event):void{
+			
+				if(event.target.selected == false){
+				
+					stage.displayState = StageDisplayState.NORMAL; 
+					Global.FullScreenToggleState = false;
+					FullScreenToggle.selected = Global.FullScreenToggleState
+					
+				}else{
+				
+					stage.displayState = StageDisplayState.FULL_SCREEN; 
+					Global.FullScreenToggleState = true;
+					FullScreenToggle.selected = Global.FullScreenToggleState
+					
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Script source="scripts/dbdatabase.as"/>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		
+		<fx:Component className="ResetMsg">
+			<s:SkinnablePopUpContainer creationComplete="init()" fontFamily="_sans">
+				
+				<fx:Script>
+					<![CDATA[
+						import mx.events.FlexEvent;
+						
+						import mx.core.FlexGlobals;
+						[Bindable] private var application:Object = FlexGlobals.topLevelApplication
+						
+						public function init():void{
+							
+							this.x = ( application.width / 2 ) - ( this.width / 2 );
+							this.y = ( application.height / 2 ) - ( this.height / 2 );
+							
+						}				
+						
+					]]>
+				</fx:Script>
+				
+				<s:TitleWindow title="Message" close="close()" fontFamily="_sans" backgroundColor="#1abc9c" color="white" chromeColor="#16a085">
+					
+					<s:VGroup verticalAlign="top" paddingTop="8" paddingLeft="8" paddingRight="8" gap="5" width="100%" horizontalAlign="center">
+						<s:Label text="Reset successful!" color="white" fontSize="20" fontFamily="_sans"/>
+						<s:HGroup>
+							<s:Button chromeColor="green" color="white" label="OKAY" click="close()"/>
+						</s:HGroup>
+						
+					</s:VGroup>
+					
+					<s:layout>
+						<s:VerticalLayout paddingTop="5" paddingBottom="5" paddingLeft="5" paddingRight="5" gap="10"
+										  horizontalAlign="center" verticalAlign="top"/>
+					</s:layout>
+					
+					<fx:Script>
+						<![CDATA[
+							
+							[Bindable] public var localVar:String = "";
+							
+							public function setValue(val:String):void{
+								
+								this.localVar=val;
+								
+							}
+							
+						]]>
+					</fx:Script>
+					
+				</s:TitleWindow>
+				
+			</s:SkinnablePopUpContainer>
+			
+		</fx:Component>
+		
+	</fx:Declarations>
+	
+	<s:ToggleSwitch id="SoundToggle" right="16" top="16" change="SoundSwitch(event)" selected="true"
+					slideDuration="100"/>
+	<s:ToggleSwitch id="FullScreenToggle" right="16" top="61" change="FullScreenSwitch(event)"
+					selected="true"/>
+	<s:Label left="25" top="19" color="#F9F0F0" fontSize="25" fontWeight="bold" text="Sounds"/>
+	<s:Label left="26" top="67" color="#F9F0F0" fontSize="25" fontWeight="bold" text="Fullscreen"/>
+	<s:Label left="28" top="111" color="#F9F0F0" fontSize="25" fontWeight="bold" text="Highscore"/>
+	<s:Button id="btnReset" right="16" top="106" width="104" height="32" label="Reset"
+			  click="resetScores(), printMessage(event)"/>
+</s:View>

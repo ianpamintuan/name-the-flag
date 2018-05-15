@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		actionBarVisible="true" backgroundColor="#1abc9c"
+		overlayControls="false"
+		tabBarVisible="true" title="Name the Flag" creationComplete="init(event)" backKeyPressed="BackKeyHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.events.ItemClickEvent;
+			import xyz.Global;
+			import mx.core.FlexGlobals;
+			import flash.media.Sound;
+
+			private var questionNum:int = 1;
+			private var filenamelist:Array = new Array("Afghanistan","Albania","Algeria","American Samoa","Andorra","Angola","Anguilla","Antigua","Argentina","Armenia","Aruba","Australia","Australia","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central African Republic","Chad","Chile","China","Christmas Islands","Colombia","Comoros","Cook Islands","Costa Rica","Croatia","Cuba","Cyprus North","Cyprus","Czech Republic","Democratic Republic of Congo","Denmark","Djibouti","Dominica","Dominican Republic","Dutch Antilles","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Island","Faroe Islands","Fiji","Finland","France","French Polynesia","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guinea Bissau","Guinea","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Ivory Coast","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macao","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Island","Martinique","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Guinea","New Zealand","Nicaragua","Niger","Nigeria","Niue","Norfolk Island","North Korea","Norway","Oman","Pakistan","Palau","Panama","Paraguay","Peru","Philippines","Pitcairn Islands","Poland","Portugal","Puerto Rico","Qatar","Republic of Congo","Romania","Russia","Rwanda","Saint Kitts","Saint Lucia","Saint Vicent","Samoa","San Marino","Sao Tome","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Soloman Islands","Somalia","South Africa","South Georgia","South Korea","Spain","Sri Lanka","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Tibet","Timor Leste","Togo","Tonga","Trinidad","Tunisia","Turkey","Turkmenistan","Turks Islands","Tuvalu","UAE","Uganda","Ukraine","United Kingdom","Uruguay","US Virgin Islands","USA","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands","Wallis & Futuna","Yemen","Zambia");
+			private var correctAns:String;
+			private var usedImages:Array = new Array(30);
+			private var ctr:int = 0;
+			private var userAnswer:Object;
+			Global.score = 0;
+			
+			private var soundClip:Sound;
+			private var soundClipChannel:SoundChannel;
+			
+			protected function init(event:FlexEvent):void
+			{
+				
+				if(soundClipChannel != null){
+				
+					soundClipChannel.stop();
+					
+				}
+				
+				Global.score = 0;
+				lblQuestionNumber.text = String(questionNum);
+				lblScore.text = String(Global.score);
+				loadImage();
+				
+			}
+			
+			protected function playCorrect():void{
+				
+				soundClip = new Sound(new URLRequest('assets/Correct.mp3'));
+				soundClipChannel = soundClip.play();
+				
+			}
+			
+			protected function playIncorrect():void{
+				
+				soundClip = new Sound(new URLRequest('assets/Incorrect.mp3'));
+				soundClipChannel = soundClip.play();
+				
+			}
+			
+			protected function randomRange(minNum:Number, maxNum:Number):Number 
+			{
+				return (Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum);
+			}
+			
+			protected function nextQuestion(event:MouseEvent):void
+			{
+				questionNum+=1;
+				
+				if(questionNum > 30){
+					
+					navigator.pushView(ResultView);
+					
+				}else{
+					
+					lblQuestionNumber.text = String(questionNum);
+					loadImage();
+					btnNext.enabled = false;
+					
+				}
+			}
+			
+			protected function loadImage():void{
+				
+				var random:int;
+				
+				if(ctr == 0){
+					
+					random = randomRange(0, filenamelist.length-1);	
+					usedImages[ctr] = random;
+					img.source="../assets/" + filenamelist[random] + ".png";
+					ctr++;
+					
+				}else{
+					
+					random = randomRange(0, filenamelist.length-1);	
+					
+					for (var i:int = 0; i < usedImages.length - 1; i++)
+					{
+						for (var j:int = 0; j < usedImages.length; j++)
+						{
+							if (random == usedImages[j])
+							{   
+								random = randomRange(0, filenamelist.length-1);	
+							}
+						}
+					}
+					
+					usedImages[ctr] = random;
+					img.source="../assets/" + filenamelist[random] + ".png";
+					ctr++;
+					
+				}
+				
+				correctAns = String(filenamelist[random]);
+				
+				var correctAnsLoc:int = randomRange(1, 3);
+				
+				rdbChoice1.label = "";
+				rdbChoice2.label = "";
+				rdbChoice3.label = "";
+				rdbChoice1.selected = false;
+				rdbChoice2.selected = false;
+				rdbChoice3.selected = false;
+				
+				if(correctAnsLoc == 1){
+					
+					var temp1:int;
+					var temp2:int;
+					
+					rdbChoice1.label = correctAns;
+					
+					do{
+						
+						temp1 = randomRange(0,filenamelist.length-1);
+						
+					}while(temp1 == random);
+					
+					rdbChoice2.label = filenamelist[temp1];
+					
+					do{
+						
+						temp2 = randomRange(0,filenamelist.length-1);
+						
+					}while(temp2 == random || temp2 == temp1);
+					
+					
+					rdbChoice3.label = filenamelist[temp2];
+					
+				}
+				else if(correctAnsLoc == 2){
+					
+					var temp1:int;
+					var temp2:int;
+					
+					rdbChoice2.label = correctAns;
+					
+					do{
+						
+						temp1 = randomRange(0,filenamelist.length-1);
+						
+					}while(temp1 == random);
+					
+					rdbChoice1.label = filenamelist[temp1];
+					
+					do{
+						
+						temp2 = randomRange(0,filenamelist.length-1);
+						
+					}while(temp2 == random || temp2 == temp1);
+					
+					
+					rdbChoice3.label = filenamelist[temp2];
+					
+				}
+				else{
+					
+					var temp1:int;
+					var temp2:int;
+					
+					rdbChoice3.label = correctAns;
+					
+					do{
+						
+						temp1 = randomRange(0,filenamelist.length-1);
+						
+					}while(temp1 == random);
+					
+					rdbChoice1.label = filenamelist[temp1];
+					
+					do{
+						
+						temp2 = randomRange(0,filenamelist.length-1);
+						
+					}while(temp2 == random || temp2 == temp1);
+					
+					
+					rdbChoice2.label = filenamelist[temp2];
+				}
+				
+			}
+			
+			protected function enableNext(event:MouseEvent):void
+			{
+				
+				btnNext.enabled = true;
+				
+			}
+			
+			protected function handleAnswers(event:ItemClickEvent):void
+			{
+				
+				userAnswer = radiogroup1.selectedValue;
+				
+			}
+			
+			protected function computeScore(event:MouseEvent):void{
+			
+				if(String(userAnswer) == correctAns){
+				
+					Global.score+=5;
+					playCorrect();
+					
+				}else if(String(userAnswer) != correctAns){
+					
+					Global.score+=1;
+					playIncorrect();
+					
+				}
+				
+				lblScore.text = String(Global.score);
+				
+			}
+			
+			protected function BackKeyHandler(event:FlexEvent):void
+			{
+				event.stopImmediatePropagation();
+				event.preventDefault();
+				
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Declarations>
+		<s:RadioButtonGroup id="radiogroup1" itemClick="handleAnswers(event)"/>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		
+
+	</fx:Declarations>
+	
+	<s:Image id="img" y="46" width="80%" height="35%" horizontalCenter="-1"/>
+	<s:VGroup width="80%" height="30%" color="#F8F1F1" horizontalAlign="left" horizontalCenter="-1"
+			  verticalCenter="57">
+		<s:RadioButton id="rdbChoice1" group="{radiogroup1}" value="{rdbChoice1.label}" click="enableNext(event)"/>
+		<s:RadioButton id="rdbChoice2" group="{radiogroup1}" value="{rdbChoice2.label}" click="enableNext(event)"/>
+		<s:RadioButton id="rdbChoice3" width="253" group="{radiogroup1}" value="{rdbChoice3.label}" click="enableNext(event)"/>
+	</s:VGroup>
+	<s:Button id="btnNext" right="10" bottom="10" width="40%" height="10%" label="Next"
+			  click="nextQuestion(event)" enabled="false" mouseDown="computeScore(event)"/>
+	<s:Label x="31" y="23" color="#FAF1F1" fontSize="18" fontWeight="bold" text="Question #"/>
+	<s:Label id="lblQuestionNumber" left="131" top="23" width="28" color="#FAF1F1" fontSize="18"
+			 fontWeight="bold"/>
+	<s:Label id="lblScore" left="96" bottom="63" width="58" height="21" color="#FAF1F1" fontSize="18"
+			 fontWeight="bold"/>
+	<s:Label left="31" bottom="67" height="17" color="#FAF1F1" fontSize="18" fontWeight="bold"
+			 text="Score:"/>
+</s:View>

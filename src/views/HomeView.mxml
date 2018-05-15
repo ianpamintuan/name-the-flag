@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:supportClasses="spark.skins.mobile.supportClasses.*"
+		backgroundColor="#1abc9c" title="Home" creationComplete="init(event)" backKeyPressed="BackKeyHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import flash.media.Sound;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import xyz.Global;
+
+			private var soundClip:Sound;
+			private var soundClipChannel:SoundChannel;
+
+			protected function printMessage(event:MouseEvent):void{
+			
+				var msg:AlertMsg = new AlertMsg();
+				msg.setValue("Do you want to close this game?");
+				msg.open(this, true);			
+					
+			}
+			
+			protected function playIntro():void
+			{
+		
+					if(Global.SoundState == false){
+					
+						soundClip = new Sound(new URLRequest('assets/Intro.mp3'));
+						soundClipChannel=soundClip.play();
+						Global.SoundState = true;
+							
+					}
+								
+			}
+			
+			protected function stopIntro(event:MouseEvent):void{
+			
+					if(soundClipChannel !=null){
+					
+						soundClipChannel.stop();
+						Global.SoundState = false;
+						
+					}
+					
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				
+				playIntro();
+				Global.name = "";
+				
+			}
+			
+			protected function BackKeyHandler(event:FlexEvent):void
+			{
+				event.stopImmediatePropagation();
+				event.preventDefault();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		
+		<fx:Component className="AlertMsg">
+			<s:SkinnablePopUpContainer creationComplete="init()" fontFamily="_sans">
+				
+				<fx:Script>
+					<![CDATA[
+						import mx.events.FlexEvent;
+						
+						protected function closeGame(event:MouseEvent):void{
+						
+							NativeApplication.nativeApplication.exit();
+							
+						}
+						
+						import mx.core.FlexGlobals;
+						[Bindable] private var application:Object = FlexGlobals.topLevelApplication
+							
+						public function init():void{
+						
+							this.x = ( application.width / 2 ) - ( this.width / 2 );
+							this.y = ( application.height / 2 ) - ( this.height / 2 );
+							
+						}				
+						
+					]]>
+				</fx:Script>
+				
+				<s:TitleWindow title="Confirm Exit" close="close()" fontFamily="_sans" backgroundColor="#1abc9c" color="white" chromeColor="#16a085">
+					
+					<s:VGroup verticalAlign="top" paddingTop="8" paddingLeft="8" paddingRight="8" gap="5" width="100%" horizontalAlign="center">
+						<s:Label text="Do you want to exit?" color="white" fontSize="20" fontFamily="_sans"/>
+						<s:HGroup>
+							<s:Button id="btnCancel" label="CANCEL" click="close()" />
+							<s:Button chromeColor="red" label="OKAY" click="closeGame(event)"/>
+						</s:HGroup>
+						
+					</s:VGroup>
+					
+					<s:layout>
+						<s:VerticalLayout paddingTop="5" paddingBottom="5" paddingLeft="5" paddingRight="5" gap="10"
+										  horizontalAlign="center" verticalAlign="top"/>
+					</s:layout>
+					
+					<fx:Script>
+						<![CDATA[
+							
+							[Bindable] public var localVar:String = "";
+							
+							public function setValue(val:String):void{
+							
+								this.localVar=val;
+
+							}
+							
+						]]>
+					</fx:Script>
+					
+				</s:TitleWindow>
+				
+			</s:SkinnablePopUpContainer>
+			
+		</fx:Component>
+		
+	</fx:Declarations>
+	
+	<s:VGroup top="25" width="100%" horizontalAlign="center" horizontalCenter="0">
+		<s:Label id="gameTitle" x="32" y="41" styleName="gameTitle" text="Name the Flag"/>
+	</s:VGroup>
+	
+	
+	<s:VGroup id="buttons" x="1" width="100%" height="50%" horizontalAlign="center"
+			  verticalCenter="32">
+		<s:Button id="btnPlay" x="17" y="126" width="90%" height="50" label="Play"
+				  click="navigator.pushView(GameView), stopIntro(event)" styleName="arrow"/>
+		<s:Button id="btnHighScores" x="17" y="184" width="90%" height="50" label="High Scores" click="navigator.pushView(HighScoreView), stopIntro(event)" styleName="arrow"/>
+		<s:Button id="btnSettings" x="17" y="242" width="90%" height="50" label="Settings" click="navigator.pushView(SettingsView), stopIntro(event)" styleName="arrow"/>
+		<s:Button id="btnHelp" x="17" y="300" width="90%" height="50" label="Help" styleName="arrow" click="navigator.pushView(HelpView), stopIntro(event)"/>
+		<s:Button id="btnExit" x="17" y="357" width="90%" height="50" label="Exit" styleName="arrow" click="printMessage(event)"/>
+	</s:VGroup>
+	
+	
+</s:View>

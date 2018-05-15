@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="Help" backgroundColor="#1abc9c">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Label left="7" top="11" width="228" height="27" color="red" fontSize="20"
+			 text="How to play the game:" fontWeight="bold"/>
+	<s:Label width="90%" height="90%" color="#F0EDED" fontSize="18" horizontalCenter="0"
+			 text="*Click Play&#xd;*You will be given 30 flags to guess per game.&#xd;*You will choose the correct flag name among the 3 choices.&#xd;*You will get 5 points each flag you answered correctly. Only 1 point if your answer is incorrect.&#xd;*The game will show a trivia after you finished the game.&#xd;*Please enjoy the game!"
+			 verticalCenter="15"/>
+	
+</s:View>
